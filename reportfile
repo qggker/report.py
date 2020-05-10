@@ -1,0 +1,59 @@
+with open('report.txt',encoding='utf-8') as f:
+    s =f.readlines()
+    s =[list(x.strip().split()) for x in s ]
+def Sum():
+    k =0
+    k1 =0
+    k2 =0
+    for a in s[1:]:
+        for b in a[1:]:
+            k1 +=int(b)
+            k +=1
+            if k==9:
+                k2 +=1
+                s[k2].append(k1)
+                s[k2].append('%.2f' % (k1/9))
+                k1 =0
+                k=0
+    s[1:] = sorted(s[1:],key = lambda a:a[-1],reverse=True)
+    for x in range(len(s[1:])):
+        s[x + 1].insert(0, x + 1)
+Sum()
+k2 = 0
+k3 = 0
+k4 = 0
+Arveage = []
+for e in range(9):
+    for d in s[1:]:
+        k2 += int(d[2+(k3)])
+    Arveage.append('%.2f' % (k2 / 30))
+    k4 += k2 / 30
+    k2 = 0
+    k3 += 1
+Arveage.append('%.2f' % (k4))
+Arveage.append('%.2f' % (k4 / 9))
+Arveage.insert(0,'平均')
+Arveage.insert(0, '0')
+x =0
+y =0
+for l in s[1:]:
+    for l2 in l[2:-2]:
+        y +=1
+        if int(l2)<60:
+            s[x+1][y+1] ='不及格'
+        if y==9:
+            x +=1
+            y =0
+s[0].insert(0,'名次')
+s[0].append('总分')
+s[0].append('平均分')
+s.insert(1,Arveage)
+result = ''
+for n in s:
+    s = '  '
+    line = s.join(str(i) for i in n) + '\n'
+    result += line
+
+f = open('result.txt','w',encoding = 'utf8')
+f.write(result)
+f.close()
